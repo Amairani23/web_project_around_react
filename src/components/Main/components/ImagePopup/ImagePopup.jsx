@@ -1,22 +1,10 @@
-export default function Card(props) {
+export default function ImagePopup(props) {
   const { name, link } = props.card;
 
   return (
-    <li className="card">
-      <img className="card__image" src={link} alt="" />
-      <button
-        aria-label="Delete card"
-        className="card__delete-button"
-        type="button"
-      />
-      <div className="card__description">
-        <h2 className="card__title">{name}</h2>
-        <button
-          aria-label="Like card"
-          type="button"
-          className="card__like-button"
-        />
-      </div>
-    </li>
+    <>
+      <img alt={name} className="popup__image" src={link} />
+      <p className="popup__caption"></p>
+    </>
   );
 }

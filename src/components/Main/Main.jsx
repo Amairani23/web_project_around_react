@@ -27,8 +27,6 @@ const cards = [
   },
 ];
 
-console.log(cards);
-
 export default function Main() {
   const [popup, setPopup] = useState(null);
 
@@ -85,24 +83,6 @@ export default function Main() {
           ))}
         </ul>
       </section>
-      <template id="cards-template">
-        <li className="card">
-          <img className="card__image" src={cards.link} alt={cards.name} />
-          <button
-            aria-label="Eliminar tarjeta"
-            className="card__delete-button"
-            type="button"
-          ></button>
-          <div className="card__description">
-            <h2 className="card__title"></h2>
-            <button
-              aria-label="Botón Me gusta"
-              className="card__like-button"
-              type="button"
-            ></button>
-          </div>
-        </li>
-      </template>
       {popup && (
         <Popup onClose={handleClosePopup} title={popup.title}>
           {popup.children}

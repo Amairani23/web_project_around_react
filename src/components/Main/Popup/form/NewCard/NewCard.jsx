@@ -1,6 +1,6 @@
 export default function NewCard() {
   return (
-    <form className="popup__form" id="new-card-form" novalidate>
+    <form className="popup__form" id="new-card-form">
       <input
         id="title"
         className="popup__input popup__input_type_card-name"

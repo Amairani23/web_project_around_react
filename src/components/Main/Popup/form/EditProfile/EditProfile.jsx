@@ -1,6 +1,6 @@
 export default function EditProfile() {
   return (
-    <form className="popup__form" id="edit-profile-form" novalidate>
+    <form className="popup__form" id="edit-profile-form">
       <input
         id="name"
         className="popup__input popup__input_type_name"
