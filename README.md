@@ -1,6 +1,6 @@
 # Around The U.S.
 
-Aplicación web desarrollada con React que permite visualizar tarjetas de lugares turísticos, editar el perfil del usuario y administrar imágenes mediante ventanas emergentes interactivas.
+Aplicación web desarrollada con React que permite visualizar tarjetas, editar el perfil del usuario y ventanas emergentes .
 
 El objetivo del proyecto fue practicar el manejo de componentes reutilizables, estados con React Hooks y la comunicación entre componentes para controlar popups y formularios dinámicos.
 
