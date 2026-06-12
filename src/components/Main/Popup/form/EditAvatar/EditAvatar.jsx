@@ -1,6 +1,25 @@
+import { useRef, useContext } from "react";
+import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
+
 export default function EditAvatar() {
+  const avatarRef = useRef();
+  const { handleUpdateAvatar } = useContext(CurrentUserContext);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    handleUpdateAvatar({
+      avatar: avatarRef.current.value,
+    });
+  }
+
   return (
-    <form className="popup__form" name="avatar-form">
+    <form
+      className="popup__form"
+      name="avatar-form"
+      noValidate
+      onSubmit={handleSubmit}
+    >
       <input
         id="avatar"
         type="url"
@@ -8,15 +27,12 @@ export default function EditAvatar() {
         name="avatar"
         placeholder="Enlace a la imagen"
         required
+        ref={avatarRef}
       />
       <span className="avatar-input-error form__input-error">
         Este campo es obligatorio.
       </span>
-      <button
-        type="submit"
-        className="popup__button popup__button_disabled"
-        disabled
-      >
+      <button type="submit" className="popup__button ">
         Guardar
       </button>
     </form>

@@ -10,19 +10,10 @@ import api from "../../utils/api";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 export default function Main(props) {
-  const { onOpenPopup, onClosePopup, popup } = props;
-  
-  const [cards, setCards] = useState([]);
-  const { currentUser } = useContext(CurrentUserContext);
+  const { onOpenPopup, onClosePopup, popup, cards, onCardLike, onCardDelete } =
+    props;
 
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch(console.error);
-  }, []);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const newCardPopup = { title: "Nuevo lugar", children: <NewCard /> };
   const editProfilePopup = {
@@ -30,37 +21,6 @@ export default function Main(props) {
     children: <EditProfile />,
   };
   const editAvatarPopup = { title: "Editar Avatar", children: <EditAvatar /> };
-
-  
-
-  async function handleCardLike(card) {
-    // Verifica una vez más si a esta tarjeta ya les has dado like
-    const isLiked = card.isLiked;
-
-    // Envía una solicitud a la API y obtén los datos actualizados de la tarjeta
-    await api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard,
-          ),
-        );
-      })
-      .catch((error) => console.error(error));
-  }
-
-  async function handleCardDelete(card) {
-    // Envía una solicitud a la API y obtén los datos actualizados de la tarjeta
-    await api
-      .deleteCard(card._id)
-      .then((newCard) => {
-        setCards((state) =>
-          state.filter((currentCard) => currentCard._id !== card._id),
-        );
-      })
-      .catch((error) => console.error(error));
-  }
 
   return (
     <main className="content">
@@ -104,8 +64,8 @@ export default function Main(props) {
               key={card._id}
               card={card}
               onOpenPopup={onOpenPopup}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>
