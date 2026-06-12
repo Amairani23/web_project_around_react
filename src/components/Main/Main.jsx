@@ -9,10 +9,11 @@ import Card from "./components/Card/Card";
 import api from "../../utils/api";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-export default function Main() {
-  const [popup, setPopup] = useState(null);
+export default function Main(props) {
+  const { onOpenPopup, onClosePopup, popup } = props;
+  
   const [cards, setCards] = useState([]);
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
     api
@@ -30,13 +31,7 @@ export default function Main() {
   };
   const editAvatarPopup = { title: "Editar Avatar", children: <EditAvatar /> };
 
-  function handleOpenPopup(popup) {
-    setPopup(popup);
-  }
-
-  function handleClosePopup() {
-    setPopup(null);
-  }
+  
 
   async function handleCardLike(card) {
     // Verifica una vez más si a esta tarjeta ya les has dado like
@@ -81,7 +76,7 @@ export default function Main() {
               src="./images/edit-icon.svg"
               alt="Editar"
               className="profile__image-edit-icon"
-              onClick={() => handleOpenPopup(editAvatarPopup)}
+              onClick={() => onOpenPopup(editAvatarPopup)}
             />
           </div>
         </div>
@@ -91,7 +86,7 @@ export default function Main() {
             aria-label="Editar perfil"
             className="profile__edit-button"
             type="button"
-            onClick={() => handleOpenPopup(editProfilePopup)}
+            onClick={() => onOpenPopup(editProfilePopup)}
           ></button>
           <p className="profile__description">{currentUser.about}</p>
         </div>
@@ -99,7 +94,7 @@ export default function Main() {
           aria-label="Agregar tarjeta"
           className="profile__add-button"
           type="button"
-          onClick={() => handleOpenPopup(newCardPopup)}
+          onClick={() => onOpenPopup(newCardPopup)}
         ></button>
       </section>
       <section className="cards page__section">
@@ -108,7 +103,7 @@ export default function Main() {
             <Card
               key={card._id}
               card={card}
-              onOpenPopup={handleOpenPopup}
+              onOpenPopup={onOpenPopup}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
             />
@@ -116,7 +111,7 @@ export default function Main() {
         </ul>
       </section>
       {popup && (
-        <Popup onClose={handleClosePopup} title={popup.title}>
+        <Popup onClose={onClosePopup} title={popup.title}>
           {popup.children}
         </Popup>
       )}
