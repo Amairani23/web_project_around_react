@@ -2,16 +2,21 @@ import { useState, useContext } from "react";
 import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
 
 export default function EditProfile() {
-  const { currentUser, handleUpdateUser } = useContext(CurrentUserContext); // Obtiene el objeto currentUser
+  const { currentUser, handleUpdateUser, louding, setIsLoading } =
+    useContext(CurrentUserContext); // Obtiene el objeto currentUser
 
   const [name, setName] = useState(currentUser.name); // Agrega la variable de estado para name
   const [description, setDescription] = useState(currentUser.about); // Agrega la variable de estado para description
-  const [nameError, setNameError] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
+  const [nameError, setNameError] = useState(" ");
+  const [descriptionError, setDescriptionError] = useState(" ");
+
+  const profileButtonClassName = `button popup__button edit-button ${
+    nameError || descriptionError ? "popup__submit_disabled" : ""
+  }`;
 
   const handleNameChange = (event) => {
     if (event.target.value.length < 3) {
-      setNameError("Error");
+      setNameError("Error: debe tener más de 2 caracteres y menos de 40");
     } else {
       setNameError("");
     }
@@ -33,6 +38,8 @@ export default function EditProfile() {
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Evita el comportamiento predeterminado del envío de formularios
+
+    setIsLoading(true);
 
     handleUpdateUser({ name, about: description }); // Actualiza la información del usuario
   };
@@ -79,8 +86,8 @@ export default function EditProfile() {
           {descriptionError}
         </span>
       </label>
-      <button className="button popup__button" type="submit">
-        Save
+      <button className={profileButtonClassName} type="submit">
+        {louding}
       </button>
     </form>
   );

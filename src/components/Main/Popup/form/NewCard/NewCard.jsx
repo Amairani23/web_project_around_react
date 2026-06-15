@@ -1,13 +1,42 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
 
 export default function NewCard() {
-  const { handleAddPlaceSubmit } = useContext(CurrentUserContext);
+  const { handleAddPlaceSubmit, louding, setIsLoading } =
+    useContext(CurrentUserContext);
   const titleRef = useRef();
   const urlRef = useRef();
 
+  const [titleRefError, settitleRefError] = useState(" ");
+  const [urlRefError, seturlRefError] = useState(" ");
+
+  const newButtonClassName = `button popup__button edit-button ${
+    titleRefError || urlRefError ? "popup__submit_disabled" : ""
+  }`;
+
+  const handleTitleChange = (event) => {
+    if (event.target.value.length < 3) {
+      settitleRefError("Error: debe tener más de 2 caracteres y menos de 40");
+    } else {
+      settitleRefError("");
+    }
+  };
+
+  const handleImageChange = () => {
+    try {
+      new URL(urlRef.current.value); // Si esto falla, salta al catch
+      // URL válida → ¿qué harías aquí?
+      seturlRefError("");
+    } catch (e) {
+      // URL inválida → ¿qué debería pasar aquí?
+      seturlRefError("Error con la url");
+    }
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    setIsLoading(true);
 
     handleAddPlaceSubmit({
       name: titleRef.current.value,
@@ -25,9 +54,10 @@ export default function NewCard() {
         type="text"
         required
         ref={titleRef}
+        onChange={handleTitleChange}
       />
       <span className="title-input-error form__input-error">
-        Este campo es obligatorio.
+        {titleRefError}
       </span>
       <input
         id="url"
@@ -37,12 +67,11 @@ export default function NewCard() {
         type="url"
         required
         ref={urlRef}
+        onChange={handleImageChange}
       />
-      <span className="url-input-error form__input-error">
-        Este campo es obligatorio.
-      </span>
-      <button className="button popup__button new-button" type="submit">
-        Crear
+      <span className="url-input-error form__input-error">{urlRefError}</span>
+      <button className={newButtonClassName} type="submit">
+        {louding}
       </button>
     </form>
   );

@@ -1,12 +1,32 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
 
 export default function EditAvatar() {
   const avatarRef = useRef();
-  const { handleUpdateAvatar } = useContext(CurrentUserContext);
+  const { handleUpdateAvatar, louding, setIsLoading } =
+    useContext(CurrentUserContext);
+
+  const [avatarRefError, setAvatarRefError] = useState(" ");
+
+  const avatarButtonClassName = `button popup__button edit-button ${
+    avatarRefError ? "popup__submit_disabled" : ""
+  }`;
+
+  const handleAvatarChange = (event) => {
+    try {
+      new URL(avatarRef.current.value); // Si esto falla, salta al catch
+      // URL válida → ¿qué harías aquí?
+      setAvatarRefError("");
+    } catch (e) {
+      // URL inválida → ¿qué debería pasar aquí?
+      setAvatarRefError("Error con la url");
+    }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    setIsLoading(true);
 
     handleUpdateAvatar({
       avatar: avatarRef.current.value,
@@ -28,12 +48,13 @@ export default function EditAvatar() {
         placeholder="Enlace a la imagen"
         required
         ref={avatarRef}
+        onChange={handleAvatarChange}
       />
-      <span className="avatar-input-error form__input-error">
-        Este campo es obligatorio.
+      <span className="avatar-input-error form__input-error ">
+        {avatarRefError}
       </span>
-      <button type="submit" className="popup__button ">
-        Guardar
+      <button type="submit" className={avatarButtonClassName}>
+        {louding}
       </button>
     </form>
   );

@@ -1,4 +1,5 @@
 import ImagePopup from "../ImagePopup/ImagePopup";
+import RemoveCard from "../RemoveCard/RemoveCard";
 
 export default function Card(props) {
   const { name, link, isLiked } = props.card;
@@ -6,6 +7,10 @@ export default function Card(props) {
 
   const imageComponent = {
     children: <ImagePopup card={props.card} />,
+  };
+
+  const confirmationComponent = {
+    children: <RemoveCard onDelete={handleDeleteClick} />,
   };
 
   const cardLikeButtonClassName = `card__like-button ${
@@ -32,7 +37,7 @@ export default function Card(props) {
         aria-label="Delete card"
         className="card__delete-button"
         type="button"
-        onClick={handleDeleteClick}
+        onClick={() => onOpenPopup(confirmationComponent)}
       />
       <div className="card__description">
         <h2 className="card__title">{name}</h2>

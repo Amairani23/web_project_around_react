@@ -9,6 +9,9 @@ function App() {
   const [popup, setPopup] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const louding = isLoading ? "Guardando..." : "Guardar";
 
   useEffect(() => {
     api
@@ -44,6 +47,7 @@ function App() {
         setCards((state) =>
           state.filter((currentCard) => currentCard._id !== card._id),
         );
+        handleClosePopup();
       })
       .catch((error) => console.error(error));
   }
@@ -95,6 +99,7 @@ function App() {
 
   function handleOpenPopup(popup) {
     setPopup(popup);
+    setIsLoading(false);
   }
 
   function handleClosePopup() {
@@ -109,6 +114,8 @@ function App() {
           handleUpdateUser,
           handleUpdateAvatar,
           handleAddPlaceSubmit,
+          louding,
+          setIsLoading,
         }}
       >
         <div className="page__content">
