@@ -7,8 +7,8 @@ export default function EditProfile() {
 
   const [name, setName] = useState(currentUser.name); // Agrega la variable de estado para name
   const [description, setDescription] = useState(currentUser.about); // Agrega la variable de estado para description
-  const [nameError, setNameError] = useState(" ");
-  const [descriptionError, setDescriptionError] = useState(" ");
+  const [nameError, setNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
 
   const profileButtonClassName = `button popup__button edit-button ${
     nameError || descriptionError ? "popup__submit_disabled" : ""
