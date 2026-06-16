@@ -1,10 +1,8 @@
-import avatar from "../../../images/avatar.jpg";
 import { useState, useEffect, useContext } from "react";
 import NewCard from "./Popup/form/NewCard/NewCard";
 import EditProfile from "./Popup/form/EditProfile/EditProfile";
 import EditAvatar from "./Popup/form/EditAvatar/EditAvatar";
 import Popup from "./Popup/Popup";
-import "../../index.css";
 import Card from "./components/Card/Card";
 import api from "../../utils/api";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
